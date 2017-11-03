@@ -16,41 +16,67 @@ class ShoppingCartViewController: UIViewController, CheckoutViewControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard Configuration.appSecretKey.characters.isEmpty == false else {
-            fatalError("Please fill in a secret key in the Configuration.swift file.")
-        }
     }
     
     // MARK: - CheckoutViewControllerDelegate
     
     func checkoutViewController(_ controller: CheckoutViewController, requiresPaymentDataForToken token: String, completion: @escaping DataCompletion) {
-        let paymentDetails: [String: Any] = [
-            "amount": [
-                "value": 17408,
-                "currency": "EUR"
-            ],
-            "reference": "iOS & M+M Black dress & accessories",
-            "countryCode": "NL",
-            "shopperLocale": "nl_NL",
-            "shopperReference": "shopper@company.com",
-            "returnUrl": "example-shopping-app://",
-            "channel": "ios",
-            "token": token
-        ]
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = try? JSONSerialization.data(withJSONObject: paymentDetails, options: [])
-        request.allHTTPHeaderFields = [
+        var getPriceRequest = URLRequest(url: URL(string: Configuration.api_url + "/collections/courses/" + String(Configuration.course_id))!)
+        getPriceRequest.httpMethod = "GET"
+        getPriceRequest.allHTTPHeaderFields = [
             "Content-Type": "application/json",
-            "x-demo-server-api-key": Configuration.appSecretKey
+            "Accept-Language": "zh-CN",
+            "Accept-Currency": "CNY",
+            "Authorization":"MobileToken " + Configuration.mobile_token
         ]
         
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { data, response, error in
-            if let data = data {
-                completion(data)
+        let getPriceSession = URLSession.shared
+        
+        getPriceSession.dataTask(with: getPriceRequest) {data, response, err in
+            if let data = data,
+                let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] {
+                if let price = json["price"] {
+                    if let currency = json["currency"] {
+                        let dateformatter = DateFormatter()
+                        
+                        dateformatter.dateFormat = "MM/dd/yy h:mm a Z"
+                        
+                        let now = dateformatter.string(from: NSDate() as Date)
+                        
+                        let paymentDetails: [String: Any] = [
+                            "amount": [
+                                "value": price,
+                                "currency": currency
+                            ],
+                            "reference": "test-wechatPay" + now,
+                            "countryCode": "CN",
+                            "shopperLocale": "zh-CN",
+                            "shopperReference": "shopper@company.com",
+                            "returnUrl": "example-shopping-app://",
+                            "channel": "iOS",
+                            "ivyspace_data": ["course_id":Configuration.course_id],
+                            "token": token
+                        ]
+            
+                        var request = URLRequest(url: URL(string: Configuration.api_url + "/purchase_courses/adyen-sdk/")!)
+                        request.httpMethod = "POST"
+                        request.httpBody = try? JSONSerialization.data(withJSONObject: paymentDetails, options: [])
+                        request.allHTTPHeaderFields = [
+                            "Content-Type": "application/json",
+                            "Accept-Language": "zh-CN",
+                            "Accept-Currency": "CNY",
+                            "Authorization":"MobileToken " + Configuration.mobile_token
+                        ]
+                
+                        let session = URLSession(configuration: .default)
+                        session.dataTask(with: request) { data, response, error in
+                            if let data = data {
+                                completion(data)
+                            }
+                            }.resume()
+                    }
+                }
             }
         }.resume()
     }
@@ -133,8 +159,6 @@ class ShoppingCartViewController: UIViewController, CheckoutViewControllerDelega
     }
     
     // MARK: - Private
-    
-    private let url = URL(string: "https://checkoutshopper-test.adyen.com/checkoutshopper/demoserver/setup")!
     
     private var appUrlCompletion: URLCompletion?
     private var cardScanCompletion: CardScanCompletion?
