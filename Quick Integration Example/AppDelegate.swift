@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    
+    //Function to show alert
     func showAlert(title: String, message: String){
         let alert = UIAlertController(title: title, message:message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -50,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    
+    //modified function to keep track of sourceApplication
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         DispatchQueue.main.async {
             self.showAlert(title: "AppDelegate func application", message:"url="+url.absoluteString+" | sourceApplication="+sourceApplication!)
