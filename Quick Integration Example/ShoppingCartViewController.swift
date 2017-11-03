@@ -167,7 +167,6 @@ class ShoppingCartViewController: UIViewController, CheckoutViewControllerDelega
         // Customize appearance of SDK.
         var appearance = AppearanceConfiguration.default
         appearance.tintColor = #colorLiteral(red: 0.4107530117, green: 0.8106812239, blue: 0.7224243283, alpha: 1)
-        appearance.checkoutButtonType = CustomButton.self
         
         let checkoutViewController = CheckoutViewController(delegate: self, appearanceConfiguration: appearance)
         checkoutViewController.cardScanDelegate = self
