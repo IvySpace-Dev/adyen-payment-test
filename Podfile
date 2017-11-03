@@ -4,8 +4,8 @@ use_frameworks!
 
 target 'Quick Integration Example' do
   
-  pod 'Adyen', :path => '../../'
-  pod 'Adyen/ApplePay', :path => '../../'
+  pod 'Adyen'
+  pod 'Adyen/ApplePay'
   pod 'CardIO'
 
 end

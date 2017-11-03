@@ -1,0 +1,42 @@
+PODS:
+  - Adyen (1.10.0):
+    - Adyen/Cards (= 1.10.0)
+    - Adyen/Core (= 1.10.0)
+    - Adyen/Ideal (= 1.10.0)
+    - Adyen/SEPADirectDebit (= 1.10.0)
+    - Adyen/UI (= 1.10.0)
+  - Adyen/ApplePay (1.10.0):
+    - Adyen/Core
+    - Adyen/CoreUI
+  - Adyen/Cards (1.10.0):
+    - Adyen/Core
+    - Adyen/CoreUI
+    - AdyenCSE (~> 1.1)
+  - Adyen/Core (1.10.0)
+  - Adyen/CoreUI (1.10.0):
+    - Adyen/Core
+  - Adyen/Ideal (1.10.0):
+    - Adyen/Core
+    - Adyen/CoreUI
+  - Adyen/SEPADirectDebit (1.10.0):
+    - Adyen/Core
+    - Adyen/CoreUI
+  - Adyen/UI (1.10.0):
+    - Adyen/Core
+    - Adyen/CoreUI
+  - AdyenCSE (1.1)
+  - CardIO (5.4.1)
+
+DEPENDENCIES:
+  - Adyen
+  - Adyen/ApplePay
+  - CardIO
+
+SPEC CHECKSUMS:
+  Adyen: f8201592c631ab64508fd51335e0abf684b2e507
+  AdyenCSE: 4405e86c0396b12dd69f0f5a151ee9051ae2beee
+  CardIO: 56983b39b62f495fc6dae9ad7cf875143df06443
+
+PODFILE CHECKSUM: 3dc13b05a219fdc2c4bde6704d9a58f28a43b270
+
+COCOAPODS: 1.2.0

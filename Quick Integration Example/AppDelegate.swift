@@ -38,12 +38,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+    func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message:message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        // show alert
+        let alertWindow = UIWindow(frame: UIScreen.main.bounds)
+        alertWindow.rootViewController = UIViewController()
+        alertWindow.windowLevel = UIWindowLevelAlert + 1;
+        alertWindow.makeKeyAndVisible()
+        alertWindow.rootViewController?.present(alert, animated: true, completion: nil)
         
-        if let viewController = window?.rootViewController as? ShoppingCartViewController {
-            viewController.applicationDidReceive(url)
+    }
+    
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        DispatchQueue.main.async {
+            self.showAlert(title: "AppDelegate func application", message:"url="+url.absoluteString+" | sourceApplication="+sourceApplication!)
+            
+            if (url.scheme == "example-shopping-app"){
+                self.showAlert(title: "URL scheme detected", message: "URL Scheme is example-shopping-app")
+                if let viewController = self.window?.rootViewController as? ShoppingCartViewController {
+                    viewController.applicationDidReceive(url)
+                }
+            }
         }
-        
         return true
     }
 }
