@@ -22,11 +22,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.adyen.example-shopping-app</string>
+			<string>com.adyen.exampleshoppingapp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>example-shopping-app</string>
-				<string></string>
+				<string>exampleshoppingapp-adyen</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.adyen.exampleshoppingapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>exampleshoppingapp</string>
 			</array>
 		</dict>
 	</array>
